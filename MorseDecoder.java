@@ -1,7 +1,7 @@
 import java.util.HashMap;
 
 public class MorseDecoder{
-	private HashMap<String, Character> morseDict = new HashMap<>();
+	private HashMap<String, Character> morseDict;
 
     public String decode(String[] morseMsg){
 		if (morseDict == null)
@@ -17,6 +17,7 @@ public class MorseDecoder{
 	}
 
 	private void createMorseDict(){
+		morseDict = new HashMap<>();
 		morseDict.put(".-", 'A');
 		morseDict.put("-...", 'B');
 		morseDict.put("-.-.", 'C');
