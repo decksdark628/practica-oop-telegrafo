@@ -1,6 +1,6 @@
 public abstract class SignalCarrier implements TransmitsSignal{
     private Signal signal;
-	private SignalCarrier nextComp;
+	private SignalCarrier nextCarrier;
 
     public abstract Result transmit(Signal s);
 
@@ -11,9 +11,9 @@ public abstract class SignalCarrier implements TransmitsSignal{
         this.signal = signal;
     }
     public SignalCarrier getNextComp() {
-        return this.nextComp;
+        return this.nextCarrier;
     }
     public void setNextComp(SignalCarrier nextComp) {
-        this.nextComp = nextComp;
+        this.nextCarrier = nextComp;
     }
 }
