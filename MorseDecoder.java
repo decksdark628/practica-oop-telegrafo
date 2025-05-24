@@ -45,4 +45,11 @@ public class MorseDecoder{
 		morseDict.put("--..", 'Z');
 		morseDict.put("/", ' ');
 	}
+
+	public HashMap<String,Character> getMorseDict() {
+		return this.morseDict;
+	}
+	public void setMorseDict(HashMap<String,Character> morseDict) {
+		this.morseDict = morseDict;
+	}
 }

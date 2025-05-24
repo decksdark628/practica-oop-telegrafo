@@ -1,0 +1,13 @@
+*.class
+
+*.log
+
+*.swp
+*.swo
+
+/target/
+/bin/
+/out/
+
+.DS_Store
+Thumbs.db

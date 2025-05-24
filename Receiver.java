@@ -23,4 +23,17 @@ public class Receiver{
 		else
 			System.out.println("Error. No se pudo leer el mensaje");
 	}
+
+    public SignalCarrier getPrevCarrier() {
+        return this.prevCarrier;
+    }
+    public void setPrevCarrier(SignalCarrier prevCarrier) {
+        this.prevCarrier = prevCarrier;
+    }
+    public String getMessage() {
+        return this.message;
+    }
+    public void setMessage(String message) {
+        this.message = message;
+    }
 }

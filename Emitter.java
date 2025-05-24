@@ -52,7 +52,7 @@ public class Emitter implements TransmitsSignal{
             if(!valid)
                 System.out.println("Solo se pueden usar caracteres de la 'A' a la 'Z' y espacios.\nIntentalo de nuevo:");
         } while (!valid);
-        sc.close();
+        //sc.close();
         return temp;
     }
 
@@ -64,7 +64,9 @@ public class Emitter implements TransmitsSignal{
 			MorseEncoder mEnc = new MorseEncoder();
 			String[] morseSignal = mEnc.encode(captureMsg());
 
-            nextComp.getSignal().setContent(morseSignal);
+            Signal signal = new Signal(morseSignal);
+
+            nextComp.setSignal(signal);
             r = new Result( true, "Señal enviada al siguiente componente");
 		}
         return r;

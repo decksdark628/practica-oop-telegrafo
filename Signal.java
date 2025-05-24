@@ -3,12 +3,25 @@ public class Signal {
     private String[] content;
     private int strength;
 
-    public void decreaseStrength(int signalDegrad){
-        if (strength - signalDegrad >= 0)
-			strength -= signalDegrad;
-		else
-			strength = 0;
+    public Signal(String[] content) {
+        this.content = content;
+        strength = 100;
+    }
+
+    public boolean decreaseStrength(int signalDegrad){
+        boolean conf;
+        if (strength - signalDegrad <= strength){
+            if (strength - signalDegrad < 0)
+                strength = 0;
+            else
+                strength = strength - signalDegrad;
+            conf = true;
+        }
+        else 
+            conf = false;
+
         checkStrength();
+        return conf;
 	}
 
     private void checkStrength(){
