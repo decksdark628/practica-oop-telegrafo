@@ -2,7 +2,7 @@ public abstract class SignalCarrier implements TransmitsSignal{
     private Signal signal;
 	private SignalCarrier nextCarrier;
 
-    public abstract Result transmit(Signal s);
+    public abstract Result transmit();
 
     public Signal getSignal() {
         return this.signal;

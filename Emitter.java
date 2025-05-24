@@ -56,7 +56,7 @@ public class Emitter implements TransmitsSignal{
         return temp;
     }
 
-    public Result transmit(Signal s){
+    public Result transmit(){
         Result r;
         if (!status)
             r = new Result(false, "No se pudo enviar la señal. El transmisor no esta encendido");

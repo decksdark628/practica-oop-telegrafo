@@ -1,4 +1,5 @@
 public class Signal {
+    private static final int STRENGTH_THRESHOLD = 35;
     private String[] content;
     private int strength;
 
@@ -7,7 +8,15 @@ public class Signal {
 			strength -= signalDegrad;
 		else
 			strength = 0;
+        checkStrength();
 	}
+
+    private void checkStrength(){
+        if (strength < STRENGTH_THRESHOLD){
+            content = null;
+            System.out.println("Mensaje perdido");
+        }   
+    }
 
     public String[] getContent() {
         return this.content;
