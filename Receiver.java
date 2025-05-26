@@ -6,20 +6,25 @@ public class Receiver{
         Result r;
         Signal morseSignal = prevCarrier.getSignal();
         if (morseSignal == null)
-            r = new Result(false, "No se recibio una señal");
+            r = new Result(false, "Receptor: No se recibio una señal");
         else{
-            MorseDecoder mDec = new MorseDecoder();
-			message = mDec.decode(morseSignal.getContent());
-            r = new Result(true, "Señal decodificada correctamente");
+            String[] content = morseSignal.getContent();
+            if (content == null)
+                r = new Result(false, "\tEmisor: No se encontro el mensaje");
+            else{
+                MorseDecoder mDec = new MorseDecoder();
+			    message = mDec.decode(morseSignal.getContent());
+                r = new Result(true, "Receptor: Señal decodificada correctamente");
+            }            
         }
         
-        System.out.println(r.getMessage());
+        System.out.println("\t" + r.getMessage());
         return r;
     }
     
 	public void displayMessage(){
 		if (message != null) 
-			System.out.println("Mensaje: \n" + message);
+			System.out.println("Mensaje: " + message);
 		else
 			System.out.println("Error. No se pudo leer el mensaje");
 	}
@@ -35,5 +40,11 @@ public class Receiver{
     }
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    @Override
+    public String toString() {
+        return "Componente anterior: " + getPrevCarrier() +
+            ", Mensaje: " + getMessage();
     }
 }

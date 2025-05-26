@@ -1,17 +1,18 @@
 import java.util.Scanner;
 
-public class Emitter implements TransmitsSignal{
+public class Emitter implements TransmitsSignal, TurnsOnOff{
     private boolean status;
-    private SignalCarrier nextComp;
+    private SignalCarrier nextCarrier;
 
     public Result turnOn(){
         Result r;
         if (!status){
             status = true;
-            r = new Result(true, "Se ha encendido el Emisor");
+            r = new Result(true, "\tSe ha encendido el Emisor");
         }
         else
-            r = new Result(false, "El Emisor ya se encuentra Encendido");
+            r = new Result(false, "\tEl Emisor ya se encuentra Encendido");
+        System.out.println(r.getMessage());
         return r;
     }
 
@@ -19,10 +20,11 @@ public class Emitter implements TransmitsSignal{
         Result r;
         if (status){
             status = false;
-            r = new Result(true, "Se ha apagado el Emisor");
+            r = new Result(true, "\tSe ha apagado el Emisor");
         }
         else
-            r = new Result(false, "El emisor ya se encuentra apagado");
+            r = new Result(false, "\tEl emisor ya se encuentra apagado");
+        System.out.println(r.getMessage());
         return r;
     }
 
@@ -45,12 +47,13 @@ public class Emitter implements TransmitsSignal{
         String temp;
         boolean valid;
 
-        System.out.println("Escribe un mensaje: ");
+        System.out.print("Escribe un mensaje: ");
         do {
             temp = sc.nextLine();
+            temp.trim();
             valid = validMsg(temp);
             if(!valid)
-                System.out.println("Solo se pueden usar caracteres de la 'A' a la 'Z' y espacios.\nIntentalo de nuevo:");
+                System.out.println("Emisor: Solo se pueden usar caracteres de la 'A' a la 'Z' y espacios.\nIntentalo de nuevo:");
         } while (!valid);
         sc.close();
         return temp;
@@ -59,16 +62,17 @@ public class Emitter implements TransmitsSignal{
     public Result transmit(){
         Result r;
         if (!status)
-            r = new Result(false, "No se pudo enviar la señal. El transmisor no esta encendido");
+            r = new Result(false, "Emisor: No se pudo enviar la señal. El transmisor no esta encendido");
 		else{
 			MorseEncoder mEnc = new MorseEncoder();
 			String[] morseSignal = mEnc.encode(captureMsg());
 
             Signal signal = new Signal(morseSignal);
 
-            nextComp.setSignal(signal);
-            r = new Result( true, "Señal enviada al siguiente componente");
+            nextCarrier.setSignal(signal);
+            r = new Result( true, "Emisor: Señal enviada al siguiente componente");
 		}
+        System.out.println("\t" + r.getMessage());
         return r;
     }
 
@@ -81,10 +85,19 @@ public class Emitter implements TransmitsSignal{
     public void setStatus(boolean status) {
         this.status = status;
     }
-    public SignalCarrier getNextComp() {
-        return this.nextComp;
+    public SignalCarrier getNextCarrier() {
+        return this.nextCarrier;
     }
-    public void setNextComp(SignalCarrier nextComp) {
-        this.nextComp = nextComp;
+    public void setNextComp(SignalCarrier nextCarrier) {
+        this.nextCarrier = nextCarrier;
+    }
+
+    @Override
+    public String toString() {
+        String temp;
+        temp = "Encendido: " + isStatus();
+        if (nextCarrier != null)
+            temp += ", Siguiente componente: " + getNextCarrier();
+        return temp;
     }
 }

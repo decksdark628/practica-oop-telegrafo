@@ -25,10 +25,8 @@ public class Signal {
 	}
 
     private void checkStrength(){
-        if (strength < STRENGTH_THRESHOLD){
+        if (strength < STRENGTH_THRESHOLD)
             content = null;
-            System.out.println("Mensaje perdido");
-        }   
     }
 
     public String[] getContent() {
@@ -42,5 +40,13 @@ public class Signal {
     }
     public void setStrength(int strength) {
         this.strength = strength;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+            " content='" + getContent() + "'" +
+            ", strength='" + getStrength() + "'" +
+            "}";
     }
 }

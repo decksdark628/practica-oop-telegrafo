@@ -12,16 +12,18 @@ public class Cable extends SignalCarrier{
         Result r;
         
         if (s == null)
-            r = new Result(false, "No se encontro ninguna señal");
+            r = new Result(false, "Cable: No se encontro ninguna señal");
         else{
             degradeSignal();
-            if (super.getNextComp() != null){
-                super.getNextComp().setSignal(s);
-                r = new Result(true, "Señal enviada al siguiente componente");
+            if (super.getNextCarrier() != null){
+                super.getNextCarrier().setSignal(s);
+                r = new Result(true, "Cable: Señal enviada al siguiente componente");
             }
             else
-                r = new Result(true, "Señal transmitida hasta el ultimo componente");
+                r = new Result(true, "Cable: Señal transmitida hasta el ultimo componente");
 		}
+        System.out.println("\t" + r.getMessage());
+        System.out.println("\t\tSeñal actual: " + s.getStrength());
         return r;
     }
 
@@ -29,7 +31,7 @@ public class Cable extends SignalCarrier{
         Signal s = super.getSignal();
         boolean stop = false;
         for (int i = 1; i<=length && !stop; i++){
-			if (s.decreaseStrength(signalDegrad) || s.getStrength() > 0)
+			if (!s.decreaseStrength(signalDegrad) || s.getStrength() <= 0)
                 stop = true;
 		}
 	}
@@ -45,5 +47,13 @@ public class Cable extends SignalCarrier{
     }
     public void setSignalDegrad(int signalDegrad) {
         this.signalDegrad = signalDegrad;
+    }
+
+    @Override
+    public String toString() {
+        return "Cable { " +
+            "Longitud: " + getLength() + " KM" +
+            ", Degracion de señal: " + getSignalDegrad() + "%" +
+            " }";
     }
 }

@@ -1,71 +1,99 @@
 public class TelegraphSystem {
-    private Emitter emt;
-    private SignalCarrier[] sigCar;
-    private Receiver rec;
+    private Emitter emitter;
+    private SignalCarrier[] signCarriers;
+    private Receiver receiver;
 
     public TelegraphSystem(Emitter emt, SignalCarrier[] sigCar, Receiver rec) {
-        this.emt = emt;
-        this.sigCar = sigCar;
-        this.rec = rec;
+        this.emitter = emt;
+        this.signCarriers = sigCar;
+        this.receiver = rec;
     }
     public TelegraphSystem(SignalCarrier[] sigCar) {
-        emt = new Emitter();
-        this.sigCar = sigCar;
-        rec = new Receiver();
+        emitter = new Emitter();
+        this.signCarriers = sigCar;
+        receiver = new Receiver();
     }
 
     public void run(){
         if (!validSequence())
-            System.out.println("El sistema esta incompleto");
+            System.out.println("\tError: El sistema esta incompleto");
         else{
+            System.out.println("\nConectando componentes...");
+            connectSystem();
+            System.out.println("El sistema se ha conectado correctamente");
+
+            System.out.println("\nInicializando componentes...");
             initializeSystem();
-            emt.turnOn();
-            emt.transmit();
-            for (int i = 0; i<sigCar.length; i++){
-                sigCar[i].transmit();
+            System.out.println("\nComponentes del sistema:" + this.toString());
+
+            System.out.println("\nEjecutando telegrafo...");
+            emitter.transmit();
+            for (int i = 0; i<signCarriers.length; i++){
+                signCarriers[i].transmit();
             }
-            rec.receiveSignal();
-            rec.displayMessage();
+            receiver.receiveSignal();
+            receiver.displayMessage();
         }
     }
 
     private boolean validSequence(){
 		boolean conf = false;
-        if (sigCar != null){
+        if (signCarriers != null){
             conf = true;
-            for (int i = 0; i<sigCar.length && conf; i++){
-                if (sigCar[i] == null)
+            for (int i = 0; i<signCarriers.length && conf; i++){
+                if (signCarriers[i] == null)
                     conf = false;
             }
         }
 		return conf;
 	}
 
-    private void initializeSystem(){
-        int n = sigCar.length-1;
-        emt.setNextComp(sigCar[0]);
-        rec.setPrevCarrier(sigCar[n]);
-        for (int i = 0; i<sigCar.length-1; i++){
-            sigCar[i].setNextComp(sigCar[i+1]);
+    private void connectSystem(){
+        int n = signCarriers.length-1;
+        emitter.setNextComp(signCarriers[0]);
+        receiver.setPrevCarrier(signCarriers[n]);
+        for (int i = 0; i<signCarriers.length-1; i++){
+            signCarriers[i].setNextCarrier(signCarriers[i+1]);
         }
     }
 
-    public Emitter getEmt() {
-        return this.emt;
+    private void initializeSystem(){
+        emitter.turnOn();
+        for (int i = 0; i<signCarriers.length; i++){
+            if (signCarriers[i] instanceof TurnsOnOff){
+                TurnsOnOff turns = ((TurnsOnOff)signCarriers[i]);
+                turns.turnOn();
+            }
+        }
     }
-    public void setEmt(Emitter emt) {
-        this.emt = emt;
+
+    public Emitter getEmitter() {
+        return this.emitter;
     }
-    public SignalCarrier[] getSigCar() {
-        return this.sigCar;
+    public void setEmitter(Emitter emt) {
+        this.emitter = emt;
     }
-    public void setSigCar(SignalCarrier[] sigCar) {
-        this.sigCar = sigCar;
+    public SignalCarrier[] getSignCarriers() {
+        return this.signCarriers;
     }
-    public Receiver getRec() {
-        return this.rec;
+    public void setSignCarriers(SignalCarrier[] sigCar) {
+        this.signCarriers = sigCar;
     }
-    public void setRec(Receiver rec) {
-        this.rec = rec;
+    public Receiver getReceiver() {
+        return this.receiver;
+    }
+    public void setReceiver(Receiver rec) {
+        this.receiver = rec;
+    }
+
+    @Override
+    public String toString() {
+        String temp = "\n> Emisor:\n\t" + emitter.toString()+
+            "\n> Portadores de señal";
+        for (int i = 0; i<signCarriers.length; i++){
+                temp += "\n\t " + signCarriers[i];
+        }
+        temp += "\n> Receptor:\n\t" + getReceiver();
+        return temp;
     }
 }

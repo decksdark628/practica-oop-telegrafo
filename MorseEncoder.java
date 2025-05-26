@@ -20,8 +20,17 @@ public class MorseEncoder{
             codedMsg[i] = morse[index];    
         }
         
+        displayMsg(codedMsg);
 		return codedMsg;
 	}
+
+    private void displayMsg(String[] s){
+        String msg = "";
+        for (int i = 0; i<s.length; i++){
+            msg += s[i] + "   ";
+        }
+        System.out.println("Mensaje codificado a: " + msg);
+    }
 
     private static void createReverseMorseDict(){
 		morse = new String[]{
